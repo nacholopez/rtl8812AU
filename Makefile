@@ -1179,6 +1179,17 @@ KSRC := /Custom/Novatek/TCL/linux-3.8_header
 #KSRC := $(KERNELDIR)
 endif
 
+ifeq ($(CONFIG_PLATFORM_ARM_RPI), y)
+EXTRA_CFLAGS += -DCONFIG_LITTLE_ENDIAN
+EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211 -DRTW_USE_CFG80211_STA_EVENT
+ARCH ?= arm
+CROSS_COMPILE ?=
+KVER ?= $(shell uname -r)
+KSRC := /lib/modules/$(KVER)/build
+MODDESTDIR := /lib/modules/$(KVER)/kernel/drivers/net/wireless/
+INSTALL_PREFIX :=
+endif
+
 ifeq ($(CONFIG_MULTIDRV), y)
 
 ifeq ($(CONFIG_SDIO_HCI), y)
